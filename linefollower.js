@@ -74,6 +74,7 @@ board.on("ready", function () {
     
     var calibrating = true;
     var running = false;
+    var onStartLine = 10;
 
     wheels.stop();
     
@@ -107,12 +108,17 @@ board.on("ready", function () {
                 lcount++;
         }
 
-        if (lcount == 6) {
+        if ((onStartLine == 0) && (lcount == 6)) {
             console.log("Finish!");
             wheels.stop();
             running = false;
             return;
         }
+
+        if ((onStartLine > 0) && (lcount < 6)) {
+            onStartLine--;
+        }
+
         wheels.steer((line - 2500) / 2500);
 
         console.log(line);
