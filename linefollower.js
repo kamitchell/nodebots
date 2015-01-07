@@ -35,17 +35,17 @@ board.on("ready", function () {
             var right = 0;
             var left = 0;
 
-            var scale = 0.3;
+            var scale = 0.4;
 
             if (dir < -0.5) {
                 leftdir = 'cw';
-                left = -dir * 0.75;
+                left = (-dir - 0.5) * 2;
                 rightdir = 'cw';
                 right = 1.0;
             }
             else if (dir < 0) {
                 leftdir = 'ccw';
-                left = 1.0 + 1.5 * dir;
+                left = 1.0 + 2 * dir;
                 rightdir = 'cw';
                 right = 1.0;
             }
@@ -53,13 +53,13 @@ board.on("ready", function () {
                 leftdir = 'ccw';
                 left = 1.0;
                 rightdir = 'cw';
-                right = 1.0 - 1.5 * dir;
+                right = 1.0 - 2 * dir;
             }
             else {
                 leftdir = 'ccw';
                 left = 1.0;
                 rightdir = 'ccw';
-                right = dir * 0.75;
+                right = (dir - 0.5) * 2;
             }
             console.log("right " + right + " " + rightdir + ", left " + left + " " + leftdir);
             wheels.right[rightdir](right * scale);
