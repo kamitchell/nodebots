@@ -27,6 +27,43 @@ board.on("ready", function () {
             wheels.left.ccw();
             wheels.right.center();
             console.log("turnRight");
+        },
+        steer: function (dir) {
+            console.log("steer: " + dir);
+            var rightdir = null;
+            var leftdir = null;
+            var right = 0;
+            var left = 0;
+
+            var scale = 0.3;
+
+            if (dir < -0.5) {
+                leftdir = 'cw';
+                left = -dir * 0.75;
+                rightdir = 'cw';
+                right = 1.0;
+            }
+            else if (dir < 0) {
+                leftdir = 'ccw';
+                left = 1.0 + 1.5 * dir;
+                rightdir = 'cw';
+                right = 1.0;
+            }
+            else if (dir < 0.5) {
+                leftdir = 'ccw';
+                left = 1.0;
+                rightdir = 'cw';
+                right = 1.0 - 1.5 * dir;
+            }
+            else {
+                leftdir = 'ccw';
+                left = 1.0;
+                rightdir = 'ccw';
+                right = dir * 0.75;
+            }
+            console.log("right " + right + " " + rightdir + ", left " + left + " " + leftdir);
+            wheels.right[rightdir](right * scale);
+            wheels.left[leftdir](left * scale);
         }
     };
     
@@ -76,14 +113,8 @@ board.on("ready", function () {
             running = false;
             return;
         }
+        wheels.steer((line - 2500) / 2500);
 
-        if (line < 1000) {
-            wheels.pivotLeft();
-        } else if (line > 4000) {
-            wheels.pivotRight();
-        } else {
-            wheels.forward();
-        }
         console.log(line);
     });
     
