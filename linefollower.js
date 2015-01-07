@@ -35,7 +35,7 @@ board.on("ready", function () {
             var right = 0;
             var left = 0;
 
-            var scale = 0.4;
+            var scale = 1;
 
             if (dir < -0.5) {
                 leftdir = 'cw';
