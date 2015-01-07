@@ -50,6 +50,7 @@ board.on("ready", function () {
         if (!key || key.name !== 'space') return;
         
         calibrating = false;
+        console.log(eyes.calibration.max);
         running = !running;
         
         if (!running) {
@@ -61,6 +62,21 @@ board.on("ready", function () {
     eyes.on("line", function(err, line) {
         if(!running) return;
     
+
+        // check for stop line
+        var lcount = 0;
+        for (i = 0; i < 6; i++) {
+            if (eyes.raw[i] > 0.8 * eyes.calibration.max[i])
+                lcount++;
+        }
+
+        if (lcount == 6) {
+            console.log("Finish!");
+            wheels.stop();
+            running = false;
+            return;
+        }
+
         if (line < 1000) {
             wheels.pivotLeft();
         } else if (line > 4000) {
